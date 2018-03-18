@@ -43,7 +43,6 @@ theme.widget_cpu                                = theme.confdir .. "/icons/cpu.p
 theme.widget_weather                            = theme.confdir .. "/icons/dish.png"
 theme.widget_fs                                 = theme.confdir .. "/icons/fs.png"
 theme.widget_mem                                = theme.confdir .. "/icons/mem.png"
-theme.widget_fs                                 = theme.confdir .. "/icons/fs.png"
 theme.widget_note                               = theme.confdir .. "/icons/note.png"
 theme.widget_note_on                            = theme.confdir .. "/icons/note_on.png"
 theme.widget_netdown                            = theme.confdir .. "/icons/net_down.png"
@@ -125,15 +124,14 @@ theme.fg_normal },
 })
 
 -- / fs
---local fsicon = wibox.widget.imagebox(theme.widget_fs)
---theme.fs = lain.widget.fs({
---    options = "--exclude-type=tmpfs",
---    notification_preset = { font = "DejaVu Sans Mono 11", fg = 
---theme.fg_normal },
---    settings  = function()
---        widget:set_markup(markup.fontfg(theme.font, "#80d9d8", fs_now.used .. "% "))
---    end
---})
+local fsicon = wibox.widget.imagebox(theme.widget_fs)
+theme.fs = lain.widget.fs({
+    notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "DejaVu Sans Mono 11"},
+    settings = function()
+        local fsp = string.format("%3.2f%s ", fs_now["/"].used, fs_now["/"].units)
+        widget:set_markup(markup.fontfg(theme.font, "#80d9d8", fsp))
+    end
+})
 
 -- CPU
 local cpuicon = wibox.widget.imagebox(theme.widget_cpu)
@@ -274,8 +272,8 @@ function theme.at_screen_connect(s)
             memory.widget,
             cpuicon,
             cpu.widget,
-            --fsicon,
-            --theme.fs.widget,
+            fsicon,
+            theme.fs.widget,
             weathericon,
             theme.weather.widget,
             --tempicon,
