@@ -126,9 +126,11 @@ theme.fg_normal },
 -- / fs
 local fsicon = wibox.widget.imagebox(theme.widget_fs)
 theme.fs = lain.widget.fs({
+    options = "--exclude-type=tmpfs",
     notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "DejaVu Sans Mono 11"},
     settings = function()
         local fsp = string.format("%3.2f%s ", fs_now["/"].used, fs_now["/"].units)
+--        local fsp = string.format("%d%% ", fs_now["/"].percentage)
         widget:set_markup(markup.fontfg(theme.font, "#80d9d8", fsp))
     end
 })
